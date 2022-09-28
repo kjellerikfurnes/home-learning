@@ -1,0 +1,17 @@
+Specify the location for the log file.
+
+export ANSIBLE_LOG_PATH=~/ansible/learning/ansible.log
+
+Enable Debug
+
+export ANSIBLE_DEBUG=True
+
+To check that generated log file.
+
+less $ANSIBLE_LOG_PATH
+
+
+remove the variables with unset
+
+unset ANSIBLE_LOG_PATH
+unset ANSIBLE_DEBUG

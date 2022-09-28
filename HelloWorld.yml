@@ -1,0 +1,12 @@
+---
+  - hosts: myhost
+    tasks:
+      - name: Say hello
+        debug:
+          msg:
+            - Hello World
+      - name: say again
+        debug:
+          msg:
+            - I said hello
+          verbosity: 2

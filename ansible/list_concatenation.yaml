@@ -1,0 +1,22 @@
+---
+  - hosts: myhost
+    tasks:
+      - name: Say hello
+        debug:
+          msg:
+            - Hello World
+      - name: say again
+        debug:
+          msg:
+            - I said hello
+          verbosity: 2
+
+      - name: test_list
+        debug:
+          var: result
+        vars:
+          prefix: foo
+          suffix: tryme
+          a_list: [ "bar", "bat", "baz" ]
+          result: "{{ [prefix] | product(a_list) | map('join') | list }}"
+          result: "{{ [prefix] | product(a_list) | map('join') | list | product([suffix]) | map('join') | list }}"

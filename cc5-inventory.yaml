@@ -1,0 +1,107 @@
+
+...
+  TRYME:
+    hosts:
+      bu-cc5-cs[01:02]:
+  CS:
+    hosts:
+      bu-cc5-cs01:
+      bu-cc5-cs02:
+  CPX:
+    hosts:
+      bu-cc5-ccp01:
+      bu-cc5-ccp02:
+  WFE:
+    hosts:
+      bu-cc5-wfe01:
+  WEB:
+    hosts:
+      bu-cc5-web01:
+  WAP:
+    hosts:
+      bu-cc5-wap01:
+  MA-GDB1:
+    hosts:
+      bu-cc5-ma01:
+       idx: 1
+      bu-cc5-ma02:
+       idx: 2
+      bu-cc5-ma03:
+        idx: 3
+      bu-cc5-ma04:
+        idx: 4
+    vars:
+      gdb: 1
+  MA-GDB2:
+    hosts:
+      bu-cc5-ma05:
+         idx: 1
+      bu-cc5-ma06:
+        idx: 2
+      bu-cc5-ma08:
+        idx: 3
+      bu-cc5-ma07:
+        idx: 4
+    vars:
+      gdb: 2
+  MA-GDB3:
+    hosts:
+      bu-cc5-ma09:
+        idx: 1
+      bu-cc5-ma11:
+        idx: 3
+      bu-cc5-ma10:
+        idx: 2
+      bu-cc5-ma12:
+        idx: 4
+    vars:
+      gdb: 3
+  MA-GDB4:
+    hosts:
+      bu-cc5-ma13:
+        idx: 1
+      bu-cc5-ma14:
+        idx: 2
+      bu-cc5-ma15:
+        idx: 3
+      bu-cc5-ma16:
+        idx: 4
+    vars:
+      gdb: 4
+  BAP-TEST:
+    hosts:
+      bu-cc5-bap[01:16]:
+  BAP:
+    hosts:
+      bu-cc5-bap01:
+      bu-cc5-bap02:
+      bu-cc5-bap03:
+      bu-cc5-bap04:
+      bu-cc5-bap05:
+      bu-cc5-bap06:
+      bu-cc5-bap07:
+      bu-cc5-bap08:
+      bu-cc5-bap09:
+      bu-cc5-bap10:
+      bu-cc5-bap11:
+      bu-cc5-bap12:
+      bu-cc5-bap13:
+      bu-cc5-bap14:
+      bu-cc5-bap15:
+      bu-cc5-bap16:
+  linux-fs-client-test:
+    hosts:
+  linux-fs-client-prod:
+    hosts:
+  windows-fs-client-test:
+    hosts:
+  windows-fs-client-prod:
+    hosts:
+  oracle-client-test:
+    hosts:
+  oracle-client-prod:
+    hosts:
+  mssql-client-test:
+    hosts:
+  mssql-client-prod:
+    hosts:

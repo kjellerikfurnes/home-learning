@@ -1,0 +1,80 @@
+ansible-playbook -i ./inventory HelloWorld.yml
+ansible-playbook syntax_check.yml --syntax-check
+ansible-playbook --check check-mode.yml
+
+
+tasks:
+  - block:
+
+  - name: Enable Nginx during boot
+    service: name=nginx state=started enabled=yes
+
+    rescue:
+      - name: This section runs only when there is an error in the block.
+        debug: msg="There was an error in starting/enabling nginx."
+    always:
+      - name: This section will run always.
+        debug: msg="This always executes."`
+
+
+
+  ---
+        - name: Download Tomcat8 from tomcat.apache.org
+          hosts: appserver
+          tasks:
+           - name: Create a Directory /opt/tomcat8
+             become: yes
+             file:
+               path: /opt/tomcat8
+               state: directory
+               mode: 0755
+               owner: tomcat
+               group: tomcat
+           - name: Download Tomcat using get_url
+             become: yes
+             get_url:
+               url: https://www-us.apache.org/dist/tomcat/tomcat-8/v8.5.40/bin/apache-tomcat-8.5.40.tar.gz
+               dest: /opt/tomcat8
+               mode: 0755
+               checksum: sha512:5bdea5414713c9ba39e226f062701fa14998b1a798c9750f956a0f59b5edabb8d83af9ec9f81cf9f47fa92c21b560c9b2be1b543d0bd8f1b49579b69101d3a8f
+               group: tomcat
+               owner: tomcat
+
+               ---
+- name: Ansible tasks to work on Ansible When
+# Defining the remote server where Ansible will run
+  hosts: web
+  remote_user: ubuntu # Using Remote host as ubuntu
+  become: true # Run the tasks as an elevated user (sudo)
+  tasks:
+
+# (Task-1) Checks if ansible_os_family == "RedHat" and then Installs Apache on Remote Node
+    - name: Install Apache on CentOS  Server
+      yum: name=httpd  state=present
+      become: yes
+      when: ansible_os_family == "RedHat"
+
+# (Task-2) Checks if ansible_os_family == "Debian" and then Installs Apache on Remote Node
+    - name: Install Apache on Ubuntu Server
+      apt:name=apache2 state=present
+      become: yes
+      when: ansible_os_family == "Debian"
+             - ansible_facts['distribution'] =="Ubuntu"
+
+
+      ---
+- name: Ansible When Single task example
+  hosts: web
+  remote_user: ubuntu
+  become: true
+  tasks:
+# (Task-1): To shutdown the remote node if distribution is CentOS with a major Version 6
+    - name: Shut down CentOS 6 systems
+      ansible.builtin.command: /sbin/shutdown -t now
+      when:
+        - ansible_facts['distribution'] == "CentOS"
+        - ansible_facts['distribution_major_version'] == "6"
+# (Task-2): To shutdown the remote node if os_family is CentOS.
+    - name: Shut down CentOS flavored systems
+      ansible.builtin.command: /sbin/shutdown -t now
+      when: ansible_facts['os_family'] == "CentOS"

@@ -1,0 +1,5 @@
+https://www.packer.io/plugins/builders/qemu
+https://www.lisenet.com/2022/building-qemu-kvm-images-with-packer/
+https://www.rizkidoank.com/2020/03/16/build-kubernetes-qemu/kvm-image-with-packer/
+https://velenux.wordpress.com/2016/11/13/how-to-create-a-centos-7-kvm-image-with-packer/
+https://www.packer.io/docs/templates/legacy_json_templates/user-variables

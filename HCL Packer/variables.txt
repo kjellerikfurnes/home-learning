@@ -1,0 +1,104 @@
+# https://www.youtube.com/watch?v=pkEezNSFWtA&t=1159s
+9:24
+TERRAFORM Environment Variables
+TF_VAR
+
+Packer Environment variables = PKR_VAR
+
+
+# In order to set a user variable, you must define it either within the variables section within your template, or using the command-line -var or -var-file flags.
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": ""
+  },
+
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}"
+      // ...
+    }
+  ]
+}
+
+
+Environment variables can be used within your template using user variables. The env function is available only within the default value of a user variable, allowing you to default a user variable to an environment variable. An example is shown below:
+
+{
+  "variables": {
+    "my_secret": "{{env `MY_SECRET`}}"
+  }
+}
+
+
+
+###
+
+//  variables.pkr.hcl
+
+// For those variables that you don't provide a default for, you must
+// set them from the command line, a var-file, or the environment.
+
+variable "weekday" {}
+
+variable "sudo_password" {
+  type =  string
+  default = "mypassword"
+  // Sensitive vars are hidden from output as of Packer v1.6.5
+  sensitive = true
+}
+
+variable "flavor" {
+  type = string
+  default = "strawberry"
+}
+
+variable "exit_codes" {
+  type = list(number)
+  default = [0]
+}
+
+locals {
+  ice_cream_flavor = "${var.flavor}-ice-cream"
+  foo             = "bar"
+}
+
+###
+
+// null_example.pkr.hcl
+
+source "null" "example" {
+    communicator = "none"
+}
+
+build {
+  sources = [
+    "source.null.example"
+  ]
+  provisioner "shell-local" {
+    // Note that for options that are documented as template engines,
+    // we still have to use the Go template engine syntax rather than our
+    // specialized HCL2 variable syntax. This example shows a combination of
+    // an HCL2 variable and the Go template engines built into the
+    // execute_command option
+    execute_command  = ["/bin/sh", "-c", "echo ${var.sudo_password}| {{.Vars}} {{.Script}}"]
+    environment_vars = ["HELLO_USER=packeruser", "UUID=${build.PackerRunUUID}"]
+    inline           = ["echo the Packer run uuid is $UUID"]
+  }
+  provisioner "shell-local" {
+    inline           = ["echo var.flavor is: ${var.flavor}",
+                        "echo local.ice_cream_flavor is: ${local.ice_cream_flavor}"]
+    valid_exit_codes = var.exit_codes
+  }
+}
+
+
+###
+
+From environment variables
+Packer will read environment variables in the form of PKR_VAR_name to find the value for a variable. For example, the PKR_VAR_access_key variable can be set to set the access_key variable.
+
+$ export PKR_VAR_weekday=Monday
+$ packer build .
